@@ -5,7 +5,7 @@ library(lubridate) #used for calculating the date parameters
 library(dplyr) #used for dedup; grammer of data manipulation, part of tidyverse 
 library(data.table)
 
-fetch_api_data <- function(start_date){
+fetch_api_data <- function(start_date, end_date){
   
   options(encoding = "UTF-8")
   
@@ -17,7 +17,7 @@ fetch_api_data <- function(start_date){
   
   #today_date <- Sys.Date()
   #start_date <- today_date %m-% months(3)
-  published_since <- paste0("page_size=1000&published_since=", start_date)
+  published_dates <- paste0("published_before=", end_date, "&published_since=", start_date)
   
 
   
@@ -27,7 +27,7 @@ fetch_api_data <- function(start_date){
   
   for (keyword in keywords){
     # Construct the complete URL for the article ID search
-    full_url <- paste0(endpoint1, published_since, "&search_for=", '"', keyword, '"')
+    full_url <- paste0(endpoint1, published_dates, "&search_for=", '"', keyword, '"')
     encoded_url <- URLencode(full_url)
     
     # Get the data to create the article IDs
